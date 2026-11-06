@@ -1251,3 +1251,138 @@ html{scroll-behavior:smooth}
 /* v0.34 Hlavička: kolem bílé karty je průhledno (žádný podklad v barvě stránky v rozích a okolo) */
 .uhk .mainc > .top::before{display:none}
 .uhk .nt-top{background:transparent}
+
+/* v0.35 Přepínač světlý / tmavý režim v horní liště (vedle zvonku) – dostupný odkudkoli */
+@keyframes uhk-th-in-a{from{opacity:0;transform:rotate(-90deg) scale(.6)}to{opacity:1;transform:none}}
+@keyframes uhk-th-in-b{from{opacity:0;transform:rotate(90deg) scale(.6)}to{opacity:1;transform:none}}
+.uhk .th-tg .ic.th-moon{animation:uhk-th-in-a .35s cubic-bezier(.2,.8,.2,1) both}
+.uhk .th-tg .ic.th-sun{animation:uhk-th-in-b .35s cubic-bezier(.2,.8,.2,1) both}
+@media (prefers-reduced-motion:reduce){.uhk .th-tg .ic{animation:none!important}}
+html.theme-dark,html.theme-dark body{background:#121316!important}
+
+/* v0.36 Upozornění: stav Úspěch + časované upozornění (zůstane ~5 s, dole ubývající lišta; najetí myší / fokus čas zastaví) */
+.uhk .ban-ok{background:#E2F3E8;color:#17693B}
+.theme-dark .uhk .ban-ok{background:#143223;color:#5CCB8A}
+.uhk .ban.timed{position:relative;overflow:hidden;--ban-bar:var(--p)}
+.uhk .ban-ok.timed{--ban-bar:#1F8A4C}
+.uhk .ban-warn.timed{--ban-bar:#C98500}
+.uhk .ban-err.timed{--ban-bar:#D93025}
+.theme-dark .uhk .ban-ok.timed{--ban-bar:#5CCB8A}
+.theme-dark .uhk .ban-warn.timed{--ban-bar:#EBC488}
+.theme-dark .uhk .ban-err.timed{--ban-bar:#F5A9A3}
+.uhk .ban-bar{position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--ban-bar);opacity:.7;transform-origin:left center}
+@keyframes uhk-ban-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes uhk-ban-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-6px)}}
+@keyframes uhk-ban-t{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+@keyframes uhk-ban-in2{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes uhk-ban-out2{from{opacity:1;transform:none}to{opacity:0;transform:translateY(-6px)}}
+@keyframes uhk-ban-t2{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.uhk .ban.timed.cy0{animation:uhk-ban-in .3s ease both,uhk-ban-out .3s ease var(--ban-dur,5s) forwards}
+.uhk .ban.timed.cy0 .ban-bar{animation:uhk-ban-t var(--ban-dur,5s) linear forwards}
+.uhk .ban.timed.cy1{animation:uhk-ban-in2 .3s ease both,uhk-ban-out2 .3s ease var(--ban-dur,5s) forwards}
+.uhk .ban.timed.cy1 .ban-bar{animation:uhk-ban-t2 var(--ban-dur,5s) linear forwards}
+.uhk .ban.timed:hover,.uhk .ban.timed:focus-within,.uhk .ban.timed:hover .ban-bar,.uhk .ban.timed:focus-within .ban-bar{animation-play-state:paused}
+@media (prefers-reduced-motion:reduce){.uhk .ban.timed{animation-duration:.01s}}
+
+/* v0.37 Menu účtu: otevírá se klepnutím / kliknutím na jméno; na tabletu a mobilu (≤ 1279 px) a na dotykových zařízeních jen tak, ne najetím. Klepnutí mimo menu ho zavře. */
+.uhk .um-scrim{position:fixed;inset:0;z-index:44;background:transparent}
+@container app (max-width:1279px){
+  .uhk .userw:hover > .umenu,.uhk .userw:focus-within > .umenu{display:none}
+  .uhk .userw > .umenu.force{display:flex}
+}
+@media (hover:none){
+  .uhk .userw:hover > .umenu,.uhk .userw:focus-within > .umenu{display:none}
+  .uhk .userw > .umenu.force{display:flex}
+}
+
+/* v0.38 Náhled notifikací pod zvonkem: na tabletu, mobilu a dotykových zařízeních jen na klepnutí (bez hoveru); klepnutí mimo náhled ho zavře. Na PC najetí myší ukáže náhled a klik vede na seznam. */
+.uhk .np-scrim{position:fixed;inset:0;z-index:44;background:transparent}
+.uhk .bellw > .np{z-index:46}
+@container app (max-width:1279px){
+  .uhk .bellw:hover > .np,.uhk .bellw:focus-within > .np{display:none}
+  .uhk .bellw > .np.force{display:flex}
+  .uhk .bellw::after{display:none}
+}
+@media (hover:none){
+  .uhk .bellw:hover > .np,.uhk .bellw:focus-within > .np{display:none}
+  .uhk .bellw > .np.force{display:flex}
+}
+
+/* v0.39 Odepnutí přímo z bočního menu a z dlaždic připnutých aplikací (ikona špendlíku).
+   PC: objeví se při najetí / fokusu. Tablet, mobil, dotyk: je vidět stále. */
+.uhk .navw{position:relative}
+.uhk .navw > .nav{width:100%}
+.uhk .nav-unpin{position:absolute;right:6px;top:50%;width:32px;height:32px;transform:translateY(-50%);opacity:0;pointer-events:none;transition:opacity .3s ease,background-color .3s ease,color .3s ease}
+.uhk .navw:hover .nav-unpin,.uhk .navw:focus-within .nav-unpin{opacity:1;pointer-events:auto}
+.uhk .navw:hover .nx,.uhk .navw:focus-within .nx{opacity:0}
+.uhk .navw > .nav{transition:padding .3s ease}
+.uhk .navw:hover > .nav,.uhk .navw:focus-within > .nav{padding-right:44px}
+/* sbalené menu = jen ikony, bez odepnutí */
+.uhk .sb.is-col:not(.drw) .nav-unpin,.uhk .sb.rl-c .nav-unpin{display:none}
+.uhk .sb.is-col:not(.drw) .navw > .nav,.uhk .sb.rl-c .navw > .nav{padding-right:12px}
+.uhk .pinw{position:relative;display:flex;flex-direction:column}
+.uhk .pinw > .pin{flex:1}
+.uhk .pin-unpin{position:absolute;top:10px;right:10px;width:32px;height:32px;opacity:0;pointer-events:none;transition:opacity .3s ease,background-color .3s ease,color .3s ease}
+.uhk .pinw:hover .pin-unpin,.uhk .pinw:focus-within .pin-unpin{opacity:1;pointer-events:auto}
+.uhk .pinw:hover .pin-x,.uhk .pinw:focus-within .pin-x{opacity:0}
+.uhk .pin-x{transition:opacity .3s ease}
+@container app (max-width:1279px){
+  .uhk .sb:not(.drw) .nav-unpin{display:none}
+  .uhk .sb:not(.drw) .navw > .nav{padding-right:12px}
+  .uhk .sb.drw .nav-unpin,.uhk .pin-unpin{opacity:1;pointer-events:auto}
+  .uhk .sb.drw .navw > .nav{padding-right:44px}
+  .uhk .sb.drw .navw .nx{display:none}
+  .uhk .pinw .pin-x{right:48px}
+  .uhk .pinw:hover .pin-x,.uhk .pinw:focus-within .pin-x{opacity:1}
+}
+@media (hover:none){
+  .uhk .nav-unpin,.uhk .pin-unpin{opacity:1;pointer-events:auto}
+  .uhk .navw > .nav{padding-right:44px}
+  .uhk .navw .nx{display:none}
+  .uhk .pinw .pin-x{right:48px}
+}
+/* mobil: dlaždice jako ikony aplikací – odepnutí je malý odznak vlevo nahoře (externí odkaz je vpravo nahoře) */
+@container app (max-width:767px){
+  .uhk .pinb.pin-unpin{top:-5px;right:auto;left:calc(50% - 38px);width:22px;height:22px;background:var(--sf);box-shadow:0 1px 4px rgba(15,23,42,.18)}
+  .uhk .pin-unpin .ic{width:12px;height:12px}
+  .uhk .pinw .pin-x{right:calc(50% - 38px)}
+}
+.theme-dark .uhk .pin-unpin{background:#2A2C30}
+.theme-dark .uhk .pin-unpin.on{color:var(--p)}
+
+/* v0.40 Logo podle grafického manuálu UHK (kap. 2.05, 2.23, 2.24, 2.28)
+   Logotyp „{ } UHK“ / „{=} FIM UHK“… ve variantě „small“, křivky z manuálu, písmo Gradec.
+   Barva černá #1D1D1B, v tmavém režimu negativ (bílá). Ochranná zóna = výška logotypu.
+   „Intranet“ je název aplikace mimo zónu (dělicí čára). Sbalené menu: „{ } UHK“ 16 px (minimum 4 mm). */
+.uhk .uhk-lt{display:block;height:24px;width:auto;flex:none;color:#1D1D1B;overflow:visible}
+.theme-dark .uhk .uhk-lt{color:#FFFFFF}
+.uhk .brand-sep{width:1px;height:20px;background:var(--ln);flex:none;margin:0 12px 0 24px}
+.uhk .brand-app{font-size:15px;font-weight:600;color:var(--tx2);letter-spacing:-.005em;white-space:nowrap}
+/* boční menu */
+.uhk .sb .brand.brand2{position:relative;display:block;height:24px;min-height:24px;padding:0 0 0 8px;margin:0 0 8px;justify-content:initial}
+.uhk .sb .brand.brand2 > a{display:block;height:100%}
+.uhk .sb .brand2 .brand-full{display:flex;align-items:center;height:24px;transition:opacity .16s ease;white-space:nowrap}
+.uhk .sb .brand2 .brand-full .brand-t{opacity:1;display:inline}
+.uhk .sb .brand2 .brand-mini{position:absolute;left:0;top:4px;opacity:0;pointer-events:none;transition:opacity .16s ease}
+.uhk .sb .brand2 .uhk-mini{height:16px}
+/* sbalené menu (Přehled ≥ 1280 sbalené, Přehled 1024–1279, moduly) – jen „{ } UHK“ 16 px */
+.uhk .sb.is-col:not(.drw) .brand2 .brand-full,.uhk .sb.rl-c .brand2 .brand-full{opacity:0;pointer-events:none}
+.uhk .sb.is-col:not(.drw) .brand2 .brand-mini,.uhk .sb.rl-c .brand2 .brand-mini{opacity:1;pointer-events:auto}
+@container app (max-width:1279px){
+  .uhk .sb:not(.drw) .brand2 .brand-full{opacity:0;pointer-events:none}
+  .uhk .sb:not(.drw) .brand2 .brand-mini{opacity:1;pointer-events:auto}
+}
+/* vysouvací panel a rozbalené menu: celý logotyp; zavírací křížek vpravo */
+.uhk .sb.drw .brand.brand2{display:flex;align-items:center}
+.uhk .sb.drw .brand2 .brand-close{position:absolute;right:-4px;top:50%;transform:translateY(-50%)}
+.uhk .sb.drw .brand2 .brand-mini{display:none}
+/* přihlášení */
+.uhk .lg-brand{margin-bottom:4px}
+.uhk .lg-brand .uhk-lt{height:28px}
+@container app (max-width:767px){ .uhk .lg-card{padding:28px} }
+/* chybové stránky: logotyp vlevo nahoře, zóna 28 px (mobil 20 px) */
+.uhk .er-brand{top:28px;left:32px}
+.uhk .er-brand .uhk-lt{height:28px}
+@container app (max-width:767px){ .uhk .er-brand{top:20px;left:20px} .uhk .er-brand .uhk-lt{height:20px} }
+/* profil – výběr fakulty: celé logotypy */
+.uhk .pf-logo .uhk-lt{height:24px}

@@ -36,6 +36,7 @@ Nasazuje se jako Render Static Site (viz README). Nepřidávej build, framework 
 - **Boční menu:**
   - Sbalené 80 px, rozbalené 256 px. Tlačítko « / » je vždy pod logem.
   - Od 1280 px rozbalení odsune obsah, pod 1280 px je overlay. Od 1024 px má stejnou animaci jako na PC (80 → 256 px), pod 1024 px vyjede zleva.
+- **Logo:** jen oficiální logotyp „{ } UHK“ (nebo fakultní) ve variantě „small“ jako SVG křivky z grafického manuálu (třída `uhk-lt`), nikdy text psaný písmem rozhraní. Černá #1D1D1B, v tmavém režimu bílá, bez efektů. Kolem logotypu ochranná zóna velká jako jeho výška. „Intranet“ stojí za zónou a dělicí čarou. Minimum 16 px.
 - **Načítání:** jen skeletony, žádné spinnery. Na tabletu a mobilu se posuvníky skrývají.
 - **Přístupnost:** viditelný fokus, `aria-*` u ikonových tlačítek, respektuj `prefers-reduced-motion`.
 

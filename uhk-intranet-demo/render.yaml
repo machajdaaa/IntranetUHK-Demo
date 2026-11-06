@@ -1,6 +1,0 @@
-services:
-  - type: web
-    name: uhk-intranet-demo
-    runtime: static
-    buildCommand: echo "bez buildu"
-    staticPublishPath: .

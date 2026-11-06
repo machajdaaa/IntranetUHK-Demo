@@ -17,6 +17,7 @@
   }
 
   document.addEventListener('click', (ev) => {
+    if (ev.defaultPrevented) return;
     const off = ev.target.closest('[data-demo-off]');
     if (off) { ev.preventDefault(); toast('Tato část není součástí dema.'); return; }
     const go = ev.target.closest('[data-href]');
